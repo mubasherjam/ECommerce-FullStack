@@ -1,0 +1,44 @@
+<h1>Products</h1>
+
+@if (loading) {
+
+  <p>Loading products...</p>
+
+} @else if (errorMessage) {
+
+  <p>{{ errorMessage }}</p>
+
+} @else {
+
+  <p>Total products: {{ products.length }}</p>
+
+@for (product of products; track product.id) {
+
+  <div class="product-card">
+
+    @if (product.imageUrl) {
+      <img
+        [src]="product.imageUrl"
+        [alt]="product.name"
+      />
+    }
+
+    <h2>{{ product.name }}</h2>
+
+    <p>{{ product.description }}</p>
+
+    <strong>${{ product.price }}</strong>
+
+    <p>Stock: {{ product.stockQuantity }}</p>
+
+    <p>Category: {{ product.categoryName }}</p>
+
+    <a [routerLink]="['/products', product.id]">
+      View Details
+    </a>
+
+  </div>
+
+}
+
+}
