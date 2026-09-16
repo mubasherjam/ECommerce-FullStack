@@ -1,1 +1,66 @@
-<p>orders works!</p>
+<h1>Your Orders</h1>
+
+@if (loading) {
+
+  <p>Loading orders...</p>
+
+} @else if (errorMessage) {
+
+  <p class="orders-error">{{ errorMessage }}</p>
+
+} @else if (orders.length > 0) {
+
+  <div class="orders-list">
+
+    @for (order of orders; track order.id) {
+
+      <div class="order-card" [class.just-placed]="order.id === justPlacedOrderId">
+
+        <div class="order-header">
+
+          <div>
+            <strong>Order #{{ order.id }}</strong>
+            <span class="order-date">{{ order.orderDate | date:'mediumDate' }}</span>
+          </div>
+
+          <span class="order-status" [attr.data-status]="order.status">
+            {{ order.status }}
+          </span>
+
+        </div>
+
+        @if (order.id === justPlacedOrderId) {
+          <p class="just-placed-message">Order placed successfully!</p>
+        }
+
+        <div class="order-items">
+
+          @for (item of order.items; track item.productId) {
+
+            <div class="order-item">
+              <span>{{ item.productName }} &times; {{ item.quantity }}</span>
+              <span>${{ item.total }}</span>
+            </div>
+
+          }
+
+        </div>
+
+        <div class="order-total">
+          Total: ${{ order.totalAmount }}
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+} @else {
+
+  <div class="orders-empty">
+    <p>You haven't placed any orders yet.</p>
+    <a routerLink="/products">Browse products</a>
+  </div>
+
+}

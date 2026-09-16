@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --ink: #1c1b1f;
+  --ink-soft: #58545e;
+  --paper: #faf9f6;
+  --paper-dim: #f1efe9;
+  --amber: #e8a33d;
+  --amber-deep: #b97614;
+  --line: #e3e0d9;
+  --success: #3d7a5d;
+  --success-bg: #eaf3ee;
+  --error: #b3432e;
+  --error-bg: #fbeae5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  margin: 0;
+}

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { LoginRequest } from '../../shared/models/login-request';
 import { AuthResponse } from '../../shared/models/auth-response';
+import { RegisterRequest } from '../../shared/models/register-request';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,13 @@ export class Auth {
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(
       `${this.apiUrl}/login`,
+      request
+    );
+  }
+
+  register(request: RegisterRequest): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/register`,
       request
     );
   }

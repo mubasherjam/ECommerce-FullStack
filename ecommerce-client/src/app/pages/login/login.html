@@ -1,73 +1,106 @@
-<div class="login-container">
+<div class="auth-screen">
 
-  <div class="login-card">
+  <aside class="auth-brand">
 
-    <h1>Welcome Back</h1>
+    <a routerLink="/" class="auth-brand-mark">Shopfront</a>
 
-    <p>Login to your account</p>
+    <div class="auth-brand-copy">
+      <p class="auth-brand-kicker">Good to see you again.</p>
+      <h1>Everything you<br />need, one order<br />away.</h1>
 
-    <form (ngSubmit)="login()">
+      <ul class="auth-brand-points">
+        <li>Fast, tracked shipping</li>
+        <li>Secure checkout</li>
+        <li>Simple returns</li>
+      </ul>
+    </div>
 
-      <div class="form-group">
+  </aside>
 
-        <label for="email">
-          Email
-        </label>
+  <main class="auth-panel">
 
-        <input
-          id="email"
-          type="email"
-          name="email"
-          [(ngModel)]="loginRequest.email"
-          placeholder="Enter your email"
-          required
-        />
+    <div class="auth-form-wrap">
 
-      </div>
+      <a routerLink="/" class="auth-back">Back to store</a>
 
-      <div class="form-group">
+      <h2>Sign in</h2>
+      <p class="auth-subtext">
+        Enter your details to access your cart and order history.
+      </p>
 
-        <label for="password">
-          Password
-        </label>
+      <form (ngSubmit)="login()">
 
-        <input
-          id="password"
-          type="password"
-          name="password"
-          [(ngModel)]="loginRequest.password"
-          placeholder="Enter your password"
-          required
-        />
+        <div class="form-group">
 
-      </div>
+          <label for="email">
+            Email
+          </label>
 
-      @if (errorMessage) {
-        <div class="error-message">
-          {{ errorMessage }}
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="loginRequest.email"
+            placeholder="you@example.com"
+            required
+          />
+
         </div>
-      }
 
-      @if (successMessage) {
-        <div class="success-message">
-          {{ successMessage }}
+        <div class="form-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            [(ngModel)]="loginRequest.password"
+            placeholder="Enter your password"
+            required
+          />
+
         </div>
-      }
 
-      <button
-        type="submit"
-        [disabled]="isLoading">
-
-        @if (isLoading) {
-          Logging in...
-        } @else {
-          Login
+        @if (errorMessage) {
+          <div class="auth-message auth-message-error">
+            {{ errorMessage }}
+          </div>
         }
 
-      </button>
+        @if (successMessage) {
+          <div class="auth-message auth-message-success">
+            {{ successMessage }}
+          </div>
+        }
 
-    </form>
+        <button
+          type="submit"
+          class="auth-submit"
+          [disabled]="isLoading">
 
-  </div>
+          @if (isLoading) {
+            Signing in...
+          } @else {
+            Sign in
+          }
+
+        </button>
+
+      </form>
+
+      <div class="auth-divider">
+        <span>or</span>
+      </div>
+
+      <a routerLink="/register" class="auth-secondary-btn">
+        Create an account
+      </a>
+
+    </div>
+
+  </main>
 
 </div>

@@ -1,1 +1,66 @@
-<p>product-details works!</p>
+@if (loading) {
+
+  <p>Loading product...</p>
+
+} @else if (errorMessage) {
+
+  <p>{{ errorMessage }}</p>
+
+} @else if (product) {
+
+  <div class="product-details">
+
+    @if (product.imageUrl) {
+      <img
+        [src]="product.imageUrl"
+        [alt]="product.name"
+      />
+    }
+
+    <div class="product-info">
+
+      <h1>{{ product.name }}</h1>
+
+      <p>{{ product.description }}</p>
+
+      <h2>${{ product.price }}</h2>
+
+      <p>Stock: {{ product.stockQuantity }}</p>
+
+      <p>Category: {{ product.categoryName }}</p>
+
+      @if (product.stockQuantity > 0) {
+
+        <div class="quantity-selector">
+          <button type="button" (click)="decreaseQuantity()">-</button>
+          <span>{{ quantity }}</span>
+          <button type="button" (click)="increaseQuantity()">+</button>
+        </div>
+
+        <button
+          type="button"
+          [disabled]="addingToCart"
+          (click)="addToCart()"
+        >
+          {{ addingToCart ? 'Adding...' : 'Add to Cart' }}
+        </button>
+
+      } @else {
+
+        <p>Out of stock</p>
+
+      }
+
+      @if (cartMessage) {
+        <p class="cart-success">{{ cartMessage }}</p>
+      }
+
+      @if (cartError) {
+        <p class="cart-error">{{ cartError }}</p>
+      }
+
+    </div>
+
+  </div>
+
+}
