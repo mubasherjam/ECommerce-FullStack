@@ -96,7 +96,7 @@ Content-Type: application/json
   "password": "Admin123!"
 }
 
-### Create Product
+### Create Products
 
 POST {{ECommerce_API_HostAddress}}/api/products
 Content-Type: application/json
