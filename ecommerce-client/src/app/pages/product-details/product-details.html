@@ -1,66 +1,85 @@
-@if (loading) {
+<app-navbar></app-navbar>
 
-  <p>Loading product...</p>
+<div class="pd-page">
 
-} @else if (errorMessage) {
+  @if (loading()) {
 
-  <p>{{ errorMessage }}</p>
+    <p class="state-message">Loading product...</p>
 
-} @else if (product) {
+  } @else if (errorMessage()) {
 
-  <div class="product-details">
+    <p class="state-message state-error">{{ errorMessage() }}</p>
 
-    @if (product.imageUrl) {
-      <img
-        [src]="product.imageUrl"
-        [alt]="product.name"
-      />
-    }
+  } @else if (product(); as product) {
 
-    <div class="product-info">
+    <a routerLink="/products" class="pd-back">&larr; Back to products</a>
 
-      <h1>{{ product.name }}</h1>
+    <div class="product-details">
 
-      <p>{{ product.description }}</p>
+      <div class="pd-media">
 
-      <h2>${{ product.price }}</h2>
+        @if (product.imageUrl) {
+          <img
+            [src]="product.imageUrl"
+            [alt]="product.name"
+          />
+        } @else {
+          <div class="pd-media-fallback"></div>
+        }
 
-      <p>Stock: {{ product.stockQuantity }}</p>
+      </div>
 
-      <p>Category: {{ product.categoryName }}</p>
+      <div class="product-info">
 
-      @if (product.stockQuantity > 0) {
+        @if (product.categoryName) {
+          <span class="pd-tag">{{ product.categoryName }}</span>
+        }
 
-        <div class="quantity-selector">
-          <button type="button" (click)="decreaseQuantity()">-</button>
-          <span>{{ quantity }}</span>
-          <button type="button" (click)="increaseQuantity()">+</button>
+        <h1>{{ product.name }}</h1>
+
+        <p class="pd-description">{{ product.description }}</p>
+
+        <div class="pd-price-row">
+          <h2>${{ product.price }}</h2>
+
+          @if (product.stockQuantity > 0) {
+            <span class="pd-stock">In stock &middot; {{ product.stockQuantity }} left</span>
+          } @else {
+            <span class="pd-stock pd-stock-out">Out of stock</span>
+          }
         </div>
 
-        <button
-          type="button"
-          [disabled]="addingToCart"
-          (click)="addToCart()"
-        >
-          {{ addingToCart ? 'Adding...' : 'Add to Cart' }}
-        </button>
+        @if (product.stockQuantity > 0) {
 
-      } @else {
+          <div class="quantity-selector">
+            <button type="button" (click)="decreaseQuantity()">-</button>
+            <span>{{ quantity() }}</span>
+            <button type="button" (click)="increaseQuantity()">+</button>
+          </div>
 
-        <p>Out of stock</p>
+          <button
+            type="button"
+            class="pd-add-btn"
+            [disabled]="addingToCart()"
+            (click)="addToCart()"
+          >
+            {{ addingToCart() ? 'Adding...' : 'Add to Cart' }}
+          </button>
 
-      }
+        }
 
-      @if (cartMessage) {
-        <p class="cart-success">{{ cartMessage }}</p>
-      }
+        @if (cartMessage()) {
+          <p class="pd-message pd-message-success">{{ cartMessage() }}</p>
+        }
 
-      @if (cartError) {
-        <p class="cart-error">{{ cartError }}</p>
-      }
+        @if (cartError()) {
+          <p class="pd-message pd-message-error">{{ cartError() }}</p>
+        }
+
+      </div>
 
     </div>
 
-  </div>
+  }
 
-}
+</div>

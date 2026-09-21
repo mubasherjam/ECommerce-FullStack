@@ -1,27 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 
 import { CartService } from '../../core/services/cart';
 import { OrderService } from '../../core/services/order';
 import { Cart as CartModel, CartItem } from '../../shared/models/cart';
+import { Navbar } from '../../shared/components/navbar/navbar';
 
 @Component({
-  imports: [RouterLink],
+  imports: [RouterLink, Navbar],
   selector: 'app-cart',
   styleUrl: './cart.css',
   templateUrl: './cart.html',
 })
 export class Cart implements OnInit {
 
-  cart: CartModel | null = null;
+  cart = signal<CartModel | null>(null);
 
-  loading = true;
-  errorMessage = '';
+  loading = signal(true);
+  errorMessage = signal('');
 
-  updatingItemId: number | null = null;
+  updatingItemId = signal<number | null>(null);
 
-  placingOrder = false;
-  checkoutError = '';
+  placingOrder = signal(false);
+  checkoutError = signal('');
 
   constructor(
     private cartService: CartService,
@@ -35,25 +36,25 @@ export class Cart implements OnInit {
 
   loadCart(): void {
 
-    this.loading = true;
-    this.errorMessage = '';
+    this.loading.set(true);
+    this.errorMessage.set('');
 
     this.cartService.getCart().subscribe({
 
       next: (response) => {
 
-        this.cart = response;
+        this.cart.set(response);
 
-        this.loading = false;
+        this.loading.set(false);
       },
 
       error: (error) => {
 
         console.error('Failed to load cart:', error);
 
-        this.errorMessage = 'Unable to load your cart.';
+        this.errorMessage.set('Unable to load your cart.');
 
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }
@@ -70,12 +71,12 @@ export class Cart implements OnInit {
 
   updateQuantity(item: CartItem, quantity: number): void {
 
-    this.updatingItemId = item.id;
+    this.updatingItemId.set(item.id);
 
     this.cartService.updateCartItem(item.id, quantity).subscribe({
 
       next: () => {
-        this.updatingItemId = null;
+        this.updatingItemId.set(null);
         this.loadCart();
       },
 
@@ -83,21 +84,21 @@ export class Cart implements OnInit {
 
         console.error('Failed to update cart item:', error);
 
-        this.errorMessage = error.error || 'Unable to update this item.';
+        this.errorMessage.set(error.error || 'Unable to update this item.');
 
-        this.updatingItemId = null;
+        this.updatingItemId.set(null);
       }
     });
   }
 
   removeItem(item: CartItem): void {
 
-    this.updatingItemId = item.id;
+    this.updatingItemId.set(item.id);
 
     this.cartService.removeCartItem(item.id).subscribe({
 
       next: () => {
-        this.updatingItemId = null;
+        this.updatingItemId.set(null);
         this.loadCart();
       },
 
@@ -105,23 +106,23 @@ export class Cart implements OnInit {
 
         console.error('Failed to remove cart item:', error);
 
-        this.errorMessage = 'Unable to remove this item.';
+        this.errorMessage.set('Unable to remove this item.');
 
-        this.updatingItemId = null;
+        this.updatingItemId.set(null);
       }
     });
   }
 
   checkout(): void {
 
-    this.checkoutError = '';
-    this.placingOrder = true;
+    this.checkoutError.set('');
+    this.placingOrder.set(true);
 
     this.orderService.createOrder().subscribe({
 
       next: (order) => {
 
-        this.placingOrder = false;
+        this.placingOrder.set(false);
 
         this.router.navigate(['/orders'], {
           state: { justPlacedOrderId: order.id }
@@ -132,9 +133,9 @@ export class Cart implements OnInit {
 
         console.error('Failed to place order:', error);
 
-        this.checkoutError = error.error || 'Unable to place your order.';
+        this.checkoutError.set(error.error || 'Unable to place your order.');
 
-        this.placingOrder = false;
+        this.placingOrder.set(false);
       }
     });
   }

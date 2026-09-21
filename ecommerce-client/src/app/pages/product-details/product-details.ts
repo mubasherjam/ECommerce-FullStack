@@ -1,28 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { ProductService } from '../../core/services/product';
 import { CartService } from '../../core/services/cart';
 import { Product } from '../../shared/models/product';
+import { Navbar } from '../../shared/components/navbar/navbar';
 
 @Component({
-  imports: [],
+  imports: [RouterLink, Navbar],
   selector: 'app-product-details',
   styleUrl: './product-details.css',
   templateUrl: './product-details.html',
 })
 export class ProductDetails implements OnInit {
 
-  product: Product | null = null;
+  product = signal<Product | null>(null);
 
-  loading = true;
-  errorMessage = '';
+  loading = signal(true);
+  errorMessage = signal('');
 
-  quantity = 1;
+  quantity = signal(1);
 
-  addingToCart = false;
-  cartMessage = '';
-  cartError = '';
+  addingToCart = signal(false);
+  cartMessage = signal('');
+  cartError = signal('');
 
   constructor(
     private route: ActivatedRoute,
@@ -42,31 +43,32 @@ export class ProductDetails implements OnInit {
 
       next: (response) => {
 
-        this.product = response;
+        this.product.set(response);
 
-        this.loading = false;
+        this.loading.set(false);
       },
 
       error: (error) => {
 
         console.error('Failed to load product:', error);
 
-        this.errorMessage = 'Unable to load this product.';
+        this.errorMessage.set('Unable to load this product.');
 
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }
 
   increaseQuantity(): void {
-    if (this.product && this.quantity < this.product.stockQuantity) {
-      this.quantity++;
+    const current = this.product();
+    if (current && this.quantity() < current.stockQuantity) {
+      this.quantity.set(this.quantity() + 1);
     }
   }
 
   decreaseQuantity(): void {
-    if (this.quantity > 1) {
-      this.quantity--;
+    if (this.quantity() > 1) {
+      this.quantity.set(this.quantity() - 1);
     }
   }
 
@@ -77,30 +79,32 @@ export class ProductDetails implements OnInit {
       return;
     }
 
-    if (!this.product) {
+    const current = this.product();
+
+    if (!current) {
       return;
     }
 
-    this.cartMessage = '';
-    this.cartError = '';
-    this.addingToCart = true;
+    this.cartMessage.set('');
+    this.cartError.set('');
+    this.addingToCart.set(true);
 
-    this.cartService.addToCart(this.product.id, this.quantity).subscribe({
+    this.cartService.addToCart(current.id, this.quantity()).subscribe({
 
       next: () => {
 
-        this.cartMessage = 'Added to cart!';
+        this.cartMessage.set('Added to cart!');
 
-        this.addingToCart = false;
+        this.addingToCart.set(false);
       },
 
       error: (error) => {
 
         console.error('Failed to add to cart:', error);
 
-        this.cartError = error.error || 'Unable to add this product to your cart.';
+        this.cartError.set(error.error || 'Unable to add this product to your cart.');
 
-        this.addingToCart = false;
+        this.addingToCart.set(false);
       }
     });
   }

@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { OrderService } from '../../core/services/order';
 import { Order } from '../../shared/models/order';
+import { Navbar } from '../../shared/components/navbar/navbar';
 
 @Component({
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, Navbar],
   selector: 'app-orders',
   styleUrl: './orders.css',
   templateUrl: './orders.html',
 })
 export class Orders implements OnInit {
 
-  orders: Order[] = [];
+  orders = signal<Order[]>([]);
 
-  loading = true;
-  errorMessage = '';
+  loading = signal(true);
+  errorMessage = signal('');
 
   justPlacedOrderId: number | null = (history.state as { justPlacedOrderId?: number })
     ?.justPlacedOrderId ?? null;
@@ -29,24 +30,29 @@ export class Orders implements OnInit {
 
   loadOrders(): void {
 
+    this.loading.set(true);
+    this.errorMessage.set('');
+
     this.orderService.getOrders().subscribe({
 
       next: (response) => {
 
-        this.orders = response.sort((a, b) =>
+        const sorted = response.sort((a, b) =>
           new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()
         );
 
-        this.loading = false;
+        this.orders.set(sorted);
+
+        this.loading.set(false);
       },
 
       error: (error) => {
 
         console.error('Failed to load orders:', error);
 
-        this.errorMessage = 'Unable to load your orders.';
+        this.errorMessage.set('Unable to load your orders.');
 
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }

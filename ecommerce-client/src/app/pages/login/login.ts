@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
+
 import { Auth } from '../../core/services/auth';
 import { LoginRequest } from '../../shared/models/login-request';
 
@@ -8,59 +10,82 @@ import { LoginRequest } from '../../shared/models/login-request';
   selector: 'app-login',
   imports: [FormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
 })
 export class Login {
-
   loginRequest: LoginRequest = {
     email: '',
-    password: ''
+    password: '',
   };
 
-  errorMessage = '';
-  successMessage = '';
-  isLoading = false;
+  errorMessage = signal('');
+  successMessage = signal('');
+  isLoading = signal(false);
 
- constructor(
-  private authService: Auth,
-  private router: Router
-) {}
+  constructor(
+    private authService: Auth,
+    private router: Router
+  ) {}
 
   login(): void {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    this.isLoading.set(true);
 
-    this.errorMessage = '';
-    this.successMessage = '';
-    this.isLoading = true;
+    this.authService
+      .login(this.loginRequest)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (response) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('email', response.email);
+          localStorage.setItem('role', response.role);
 
-    this.authService.login(this.loginRequest).subscribe({
-      
-      next: (response) => {
+          this.successMessage.set('Login successful!');
 
-        console.log('Login successful:', response);
+          this.router.navigate(['/']);
+        },
+        error: (error: unknown) => {
+          this.errorMessage.set(this.getErrorMessage(error));
+        },
+      });
+  }
 
-        // Save JWT token
-        localStorage.setItem('token', response.token);
+  private getErrorMessage(error: unknown): string {
+    if (typeof error === 'string') {
+      return error;
+    }
 
-        // Save user information
-        localStorage.setItem('email', response.email);
-        localStorage.setItem('role', response.role);
+    if (error && typeof error === 'object') {
+      const httpError = error as {
+        error?: string | { message?: string; error?: string };
+        message?: string;
+      };
 
-        this.successMessage = 'Login successful!';
-
-        this.isLoading = false;
-
-        this.router.navigate(['/']);
-      },
-
-      error: (error) => {
-
-        console.error('Login failed:', error);
-
-        this.errorMessage =
-          error.error || 'Invalid email or password.';
-
-        this.isLoading = false;
+      if (typeof httpError.error === 'string') {
+        return httpError.error;
       }
-    });
+
+      if (httpError.error && typeof httpError.error === 'object') {
+        const nestedError = httpError.error as {
+          message?: string;
+          error?: string;
+        };
+
+        if (typeof nestedError.message === 'string') {
+          return nestedError.message;
+        }
+
+        if (typeof nestedError.error === 'string') {
+          return nestedError.error;
+        }
+      }
+
+      if (typeof httpError.message === 'string') {
+        return httpError.message;
+      }
+    }
+
+    return 'Invalid email or password.';
   }
 }

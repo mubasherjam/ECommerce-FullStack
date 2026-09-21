@@ -1,29 +1,89 @@
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
-  border-bottom: 1px solid #ddd;
+  padding: 16px 48px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
 }
 
 .logo {
-  font-size: 22px;
-  font-weight: bold;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 21px;
+  color: var(--ink);
+  text-decoration: none;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 28px;
 }
 
-.nav-links a {
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
   text-decoration: none;
-  color: inherit;
+  color: var(--ink-soft);
 }
 
-.nav-links button {
-  border: none;
-  padding: 8px 14px;
+.nav-link:hover {
+  color: var(--ink);
+}
+
+.nav-link-cart svg {
+  position: relative;
+  top: -1px;
+}
+
+.nav-btn {
+  padding: 9px 18px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  text-decoration: none;
   cursor: pointer;
+}
+
+.nav-btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+}
+
+.nav-btn-primary:hover {
+  background: #34323a;
+}
+
+.nav-btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.nav-btn-outline:hover {
+  border-color: var(--ink);
+  background: var(--paper-dim);
+}
+
+@media (max-width: 640px) {
+
+  .navbar {
+    padding: 14px 20px;
+  }
+
+  .nav-links {
+    gap: 14px;
+  }
+
+  .nav-link span,
+  .nav-link:not(.nav-link-cart) {
+    font-size: 14px;
+  }
 }

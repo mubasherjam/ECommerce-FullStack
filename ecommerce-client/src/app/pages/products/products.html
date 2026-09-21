@@ -1,44 +1,77 @@
-<h1>Products</h1>
+<app-navbar></app-navbar>
 
-@if (loading) {
+<div class="products-page">
 
-  <p>Loading products...</p>
+  <header class="products-header">
+    <h1>Shop all products</h1>
+    <p>Browse the full catalog below.</p>
+  </header>
 
-} @else if (errorMessage) {
+  @if (loading()) {
 
-  <p>{{ errorMessage }}</p>
+    <p class="state-message">Loading products...</p>
 
-} @else {
+  } @else if (errorMessage()) {
 
-  <p>Total products: {{ products.length }}</p>
+    <p class="state-message state-error">{{ errorMessage() }}</p>
 
-@for (product of products; track product.id) {
+  } @else if (products().length === 0) {
 
-  <div class="product-card">
+    <p class="state-message">No products found.</p>
 
-    @if (product.imageUrl) {
-      <img
-        [src]="product.imageUrl"
-        [alt]="product.name"
-      />
-    }
+  } @else {
 
-    <h2>{{ product.name }}</h2>
+    <div class="products-grid">
 
-    <p>{{ product.description }}</p>
+      @for (product of products(); track product.id) {
 
-    <strong>${{ product.price }}</strong>
+        <a [routerLink]="['/products', product.id]" class="product-card">
 
-    <p>Stock: {{ product.stockQuantity }}</p>
+          <div class="product-card-media">
 
-    <p>Category: {{ product.categoryName }}</p>
+            @if (product.imageUrl) {
+              <img
+                [src]="product.imageUrl"
+                [alt]="product.name"
+              />
+            } @else {
+              <div class="product-card-media-fallback"></div>
+            }
 
-    <a [routerLink]="['/products', product.id]">
-      View Details
-    </a>
+            @if (product.categoryName) {
+              <span class="product-card-tag">{{ product.categoryName }}</span>
+            }
 
-  </div>
+          </div>
 
-}
+          <div class="product-card-body">
 
-}
+            <h2>{{ product.name }}</h2>
+
+            <p class="product-card-desc">{{ product.description }}</p>
+
+            <div class="product-card-footer">
+
+              <strong class="product-card-price">${{ product.price }}</strong>
+
+              @if (product.stockQuantity > 0) {
+                <span class="product-card-stock">In stock</span>
+              } @else {
+                <span class="product-card-stock product-card-stock-out">Out of stock</span>
+              }
+
+            </div>
+
+            <span class="product-card-link">View details &rarr;</span>
+
+          </div>
+
+        </a>
+
+      }
+
+    </div>
+
+  }
+
+</div>

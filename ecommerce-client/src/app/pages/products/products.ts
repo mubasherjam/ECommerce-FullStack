@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { ProductService } from '../../core/services/product';
 import { Product } from '../../shared/models/product';
+import { Navbar } from '../../shared/components/navbar/navbar';
 
 @Component({
   selector: 'app-products',
-  imports: [RouterLink],
+  imports: [RouterLink, Navbar],
   templateUrl: './products.html',
   styleUrl: './products.css'
 })
 export class Products implements OnInit {
 
-  products: Product[] = [];
-
-  loading = true;
-  errorMessage = '';
+  products = signal<Product[]>([]);
+  loading = signal(true);
+  errorMessage = signal('');
 
   constructor(private productService: ProductService) {}
 
@@ -25,24 +25,25 @@ export class Products implements OnInit {
 
   loadProducts(): void {
 
+    this.loading.set(true);
+    this.errorMessage.set('');
+
     this.productService.getProducts().subscribe({
 
       next: (response) => {
 
-        console.log('Products:', response);
+        this.products.set(response);
 
-        this.products = response;
-
-        this.loading = false;
+        this.loading.set(false);
       },
 
       error: (error) => {
 
         console.error('Failed to load products:', error);
 
-        this.errorMessage = 'Unable to load products.';
+        this.errorMessage.set('Unable to load products.');
 
-        this.loading = false;
+        this.loading.set(false);
       }
 
     });
