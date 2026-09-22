@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { Navbar } from '../../shared/components/navbar/navbar';
 import { ProductService } from '../../core/services/product';
 import { Product } from '../../shared/models/product';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',

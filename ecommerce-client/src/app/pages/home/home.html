@@ -2,74 +2,89 @@
 
 <main>
 
-  <!-- HERO -->
+  <!-- =========================
+       ANNOUNCEMENT BAR
+  ========================== -->
+
+  <div class="announcement">
+    <span>FREE SHIPPING ON ORDERS OVER $100</span>
+    <span class="announcement-dot">•</span>
+    <span>SHOP THE NEW COLLECTION</span>
+  </div>
+
+
+  <!-- =========================
+       HERO
+  ========================== -->
+
   <section class="hero">
 
     <div class="hero-content">
 
-      <p class="eyebrow">
-        THE SHOPFRONT COLLECTION
-      </p>
+      <div class="hero-top">
+        <span class="hero-label">SHOPFRONT / 2026</span>
+        <span class="hero-index">01 — 04</span>
+      </div>
 
-      <h1>
-        Things worth
-        <span>bringing home.</span>
-      </h1>
+      <div class="hero-main">
 
-      <p class="hero-description">
-        Discover thoughtfully selected products for everyday living,
-        work and everything in between.
-      </p>
+        <p class="eyebrow">
+          CURATED FOR EVERYDAY
+        </p>
 
-      <div class="hero-actions">
+        <h1>
+          Better things.
+          <br>
+          <em>Better living.</em>
+        </h1>
 
-        <a routerLink="/products" class="primary-button">
-          Shop all products
-          <span>→</span>
-        </a>
+        <p class="hero-description">
+          Discover products chosen for the way you live,
+          work and spend your everyday moments.
+        </p>
 
-        <a routerLink="/products" class="secondary-button">
-          Explore collection
-        </a>
+        <div class="hero-buttons">
+
+          <a routerLink="/products" class="button-dark">
+            Explore collection
+            <span>↗</span>
+          </a>
+
+          <a routerLink="/products" class="button-text">
+            Shop all products
+            <span>→</span>
+          </a>
+
+        </div>
 
       </div>
 
-      <div class="hero-meta">
+      <div class="hero-footer">
 
-        <div>
-          <strong>01</strong>
-          <span>Curated products</span>
-        </div>
+        <span>DESIGNED FOR EVERYDAY LIFE</span>
 
-        <div>
-          <strong>02</strong>
-          <span>Secure shopping</span>
-        </div>
-
-        <div>
-          <strong>03</strong>
-          <span>Fast checkout</span>
-        </div>
+        <span>
+          SCROLL TO EXPLORE ↓
+        </span>
 
       </div>
 
     </div>
 
-    <div class="hero-visual">
 
-      <div class="visual-card">
+    <div class="hero-image">
 
-        <div class="visual-label">
-          FEATURED
-        </div>
+      <div class="hero-image-overlay">
 
-        <div class="visual-circle">
-          <span>SHOP</span>
-        </div>
-
-        <div class="visual-bottom">
+        <div class="hero-product-label">
           <span>SHOPFRONT</span>
-          <span>EST. 2026</span>
+          <strong>THE EVERYDAY EDIT</strong>
+        </div>
+
+        <div class="hero-round-text">
+          <span>DISCOVER</span>
+          <span>SHOP</span>
+          <span>LIVE</span>
         </div>
 
       </div>
@@ -79,62 +94,115 @@
   </section>
 
 
-  <!-- CATEGORY SECTION -->
-  <section class="categories-section">
+  <!-- =========================
+       STATS
+  ========================== -->
 
-    <div class="section-heading">
+  <section class="stats">
+
+    <div class="stat">
+      <strong>50+</strong>
+      <span>Curated products</span>
+    </div>
+
+    <div class="stat">
+      <strong>04</strong>
+      <span>Product categories</span>
+    </div>
+
+    <div class="stat">
+      <strong>24/7</strong>
+      <span>Online shopping</span>
+    </div>
+
+    <div class="stat">
+      <strong>100%</strong>
+      <span>Secure checkout</span>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       COLLECTIONS
+  ========================== -->
+
+  <section class="collections">
+
+    <div class="section-intro">
 
       <div>
-        <p class="eyebrow">SHOP BY CATEGORY</p>
+
+        <span class="section-number">01 / COLLECTIONS</span>
 
         <h2>
-          Find something
-          <em>you'll love.</em>
+          Shop by
+          <em>category.</em>
         </h2>
+
       </div>
 
-      <a routerLink="/products" class="text-link">
-        View all products →
-      </a>
+      <p>
+        From everyday essentials to things that make
+        your space and style feel a little more yours.
+      </p>
 
     </div>
 
 
-    <div class="categories-grid">
+    <div class="collection-grid">
 
-      <a routerLink="/products" class="category-card category-dark">
-        <span class="category-number">01</span>
+      <a routerLink="/products" class="collection collection-large collection-electronics">
 
-        <div>
-          <h3>Electronics</h3>
-          <p>Technology for everyday life.</p>
+        <div class="collection-content">
+
+          <span>01</span>
+
+          <div>
+            <p>ELECTRONICS</p>
+            <h3>Technology<br><em>that works.</em></h3>
+          </div>
+
+          <strong>Explore ↗</strong>
+
         </div>
 
-        <span class="category-arrow">↗</span>
       </a>
 
 
-      <a routerLink="/products" class="category-card category-light">
-        <span class="category-number">02</span>
+      <a routerLink="/products" class="collection collection-clothing">
 
-        <div>
-          <h3>Clothing</h3>
-          <p>Simple pieces, timeless style.</p>
+        <div class="collection-content">
+
+          <span>02</span>
+
+          <div>
+            <p>CLOTHING</p>
+            <h3>Everyday<br><em>essentials.</em></h3>
+          </div>
+
+          <strong>Explore ↗</strong>
+
         </div>
 
-        <span class="category-arrow">↗</span>
       </a>
 
 
-      <a routerLink="/products" class="category-card category-accent">
-        <span class="category-number">03</span>
+      <a routerLink="/products" class="collection collection-home">
 
-        <div>
-          <h3>Home & Kitchen</h3>
-          <p>Make your space feel like home.</p>
+        <div class="collection-content">
+
+          <span>03</span>
+
+          <div>
+            <p>HOME & KITCHEN</p>
+            <h3>Make space<br><em>your own.</em></h3>
+          </div>
+
+          <strong>Explore ↗</strong>
+
         </div>
 
-        <span class="category-arrow">↗</span>
       </a>
 
     </div>
@@ -142,22 +210,27 @@
   </section>
 
 
-  <!-- FEATURED PRODUCTS -->
-  <section class="featured-section">
+  <!-- =========================
+       FEATURED PRODUCTS
+  ========================== -->
 
-    <div class="section-heading">
+  <section class="products-section">
+
+    <div class="products-header">
 
       <div>
-        <p class="eyebrow">OUR PICKS</p>
+
+        <span class="section-number">02 / THE EDIT</span>
 
         <h2>
           Featured
-          <em>products.</em>
+          <em>now.</em>
         </h2>
+
       </div>
 
-      <a routerLink="/products" class="text-link">
-        Shop everything →
+      <a routerLink="/products" class="view-all">
+        View entire collection →
       </a>
 
     </div>
@@ -165,45 +238,69 @@
 
     @if (loading) {
 
-      <div class="products-loading">
-        <span>Loading collection...</span>
+      <div class="product-skeleton-grid">
+
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+
       </div>
 
     } @else if (products.length > 0) {
 
-      <div class="featured-grid">
+      <div class="premium-products">
 
         @for (product of products; track product.id) {
 
-          <article class="featured-product">
+          <article class="premium-product">
 
-            <a [routerLink]="['/products', product.id]" class="product-image">
+            <a
+              [routerLink]="['/products', product.id]"
+              class="premium-image"
+            >
 
               @if (product.imageUrl) {
+
                 <img
                   [src]="product.imageUrl"
                   [alt]="product.name"
                 />
+
               } @else {
-                <div class="image-placeholder">
+
+                <div class="image-fallback">
                   SHOPFRONT
                 </div>
+
               }
 
+              <span class="product-number">
+                {{ $index + 1  }}
+              </span>
+
               @if (product.categoryName) {
-                <span class="product-category">
+
+                <span class="product-tag">
                   {{ product.categoryName }}
                 </span>
+
               }
+
+              <span class="product-view">
+                View product ↗
+              </span>
 
             </a>
 
 
-            <div class="product-info">
+            <div class="premium-product-info">
 
               <div>
 
-                <h3>{{ product.name }}</h3>
+                <h3>
+                  {{ product.name }}
+                </h3>
 
                 <p>
                   {{ product.description }}
@@ -211,17 +308,9 @@
 
               </div>
 
-              <div class="product-bottom">
-
-                <strong>
-                  ${{ product.price }}
-                </strong>
-
-                <a [routerLink]="['/products', product.id]">
-                  View →
-                </a>
-
-              </div>
+              <strong>
+                ${{ product.price }}
+              </strong>
 
             </div>
 
@@ -233,12 +322,24 @@
 
     } @else {
 
-      <div class="empty-products">
-        <p>No products available yet.</p>
+      <div class="products-empty">
+
+        <span>SHOPFRONT / COLLECTION</span>
+
+        <h3>
+          New products
+          <em>coming soon.</em>
+        </h3>
+
+        <p>
+          We're preparing the next collection.
+          Explore the full store to see everything currently available.
+        </p>
 
         <a routerLink="/products">
-          Browse store →
+          Browse products →
         </a>
+
       </div>
 
     }
@@ -246,72 +347,136 @@
   </section>
 
 
-  <!-- WHY SHOPFRONT -->
-  <section class="why-section">
+  <!-- =========================
+       EDITORIAL BANNER
+  ========================== -->
 
-    <div class="why-intro">
+  <section class="editorial">
 
-      <p class="eyebrow">
-        WHY SHOPFRONT
-      </p>
+    <div class="editorial-copy">
+
+      <span class="section-number">
+        03 / THE SHOPFRONT WAY
+      </span>
 
       <h2>
-        Shopping should
-        <em>feel simple.</em>
+        Less noise.
+        <br>
+        More <em>good things.</em>
       </h2>
 
       <p>
-        From discovering something new to placing your order,
-        Shopfront is designed to keep the experience simple,
-        clear and enjoyable.
+        We believe online shopping should feel effortless.
+        No endless searching. No unnecessary complexity.
+        Just useful products, clearly presented.
       </p>
+
+      <a routerLink="/products" class="editorial-button">
+        Discover Shopfront →
+      </a>
 
     </div>
 
 
-    <div class="benefits">
+    <div class="editorial-mark">
 
-      <div class="benefit">
+      <div class="mark-circle">
+        <span>SF</span>
+      </div>
 
-        <span class="benefit-number">01</span>
+      <div class="mark-text">
+        SHOPFRONT
+        <br>
+        EST. 2026
+      </div>
 
-        <div>
-          <h3>Curated selection</h3>
-          <p>
-            A growing collection of useful products
-            across everyday categories.
-          </p>
-        </div>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       BENEFITS
+  ========================== -->
+
+  <section class="benefits-section">
+
+    <div class="benefits-heading">
+
+      <span class="section-number">
+        04 / SHOP WITH CONFIDENCE
+      </span>
+
+      <h2>
+        Everything you need.
+        <em>Nothing you don't.</em>
+      </h2>
+
+    </div>
+
+
+    <div class="benefits-grid">
+
+      <div class="benefit-card">
+
+        <span>01</span>
+
+        <div class="benefit-icon">↗</div>
+
+        <h3>Curated selection</h3>
+
+        <p>
+          Products organized into simple categories
+          so you can find what you're looking for faster.
+        </p>
 
       </div>
 
 
-      <div class="benefit">
+      <div class="benefit-card">
 
-        <span class="benefit-number">02</span>
+        <span>02</span>
 
-        <div>
-          <h3>Secure shopping</h3>
-          <p>
-            Your account and shopping experience
-            are protected from start to finish.
-          </p>
-        </div>
+        <div class="benefit-icon">✓</div>
+
+        <h3>Secure experience</h3>
+
+        <p>
+          Your account, authentication and shopping
+          experience are built with security in mind.
+        </p>
 
       </div>
 
 
-      <div class="benefit">
+      <div class="benefit-card">
 
-        <span class="benefit-number">03</span>
+        <span>03</span>
 
-        <div>
-          <h3>Built for convenience</h3>
-          <p>
-            Browse products, manage your cart and
-            track your orders from one place.
-          </p>
-        </div>
+        <div class="benefit-icon">+</div>
+
+        <h3>Simple checkout</h3>
+
+        <p>
+          Add products to your cart and manage your
+          orders from one clean shopping experience.
+        </p>
+
+      </div>
+
+
+      <div class="benefit-card">
+
+        <span>04</span>
+
+        <div class="benefit-icon">∞</div>
+
+        <h3>Always evolving</h3>
+
+        <p>
+          New products and improvements are continuously
+          added to make Shopfront better.
+        </p>
 
       </div>
 
@@ -320,25 +485,68 @@
   </section>
 
 
-  <!-- CTA -->
-  <section class="cta-section">
+  <!-- =========================
+       NEWSLETTER
+  ========================== -->
+
+  <section class="newsletter">
 
     <div>
 
-      <p class="eyebrow">
-        READY TO EXPLORE?
-      </p>
+      <span class="section-number">
+        STAY IN THE LOOP
+      </span>
 
       <h2>
-        Your next favorite
-        <em>thing is waiting.</em>
+        Good things,
+        <em>delivered.</em>
       </h2>
+
+      <p>
+        Get occasional updates about new products,
+        collections and what's happening at Shopfront.
+      </p>
 
     </div>
 
-    <a routerLink="/products" class="cta-button">
+
+    <div class="newsletter-form">
+
+      <input
+        type="email"
+        placeholder="Your email address"
+      />
+
+      <button>
+        Subscribe →
+      </button>
+
+      <small>
+        No spam. Just the good stuff.
+      </small>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       FINAL CTA
+  ========================== -->
+
+  <section class="final-cta">
+
+    <span>SHOPFRONT / 2026</span>
+
+    <h2>
+      Find something
+      <br>
+      worth <em>keeping.</em>
+    </h2>
+
+    <a routerLink="/products">
       Start shopping
-      <span>→</span>
+      <span>↗</span>
     </a>
 
   </section>
