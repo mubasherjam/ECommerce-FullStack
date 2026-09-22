@@ -7,7 +7,9 @@ import { Products } from './pages/products/products';
 import { Cart } from './pages/cart/cart';
 import { Orders } from './pages/orders/orders';
 import { authGuard } from './core/guards/auth-guard';
+import { adminGuard } from './core/guards/admin-guard';
 import { ProductDetails } from './pages/product-details/product-details';
+import { AddProduct } from './pages/admin/add-product/add-product';
 
 export const routes: Routes = [
   {
@@ -39,6 +41,11 @@ export const routes: Routes = [
     path: 'orders',
     component: Orders,
     canActivate: [authGuard]
+  },
+  {
+    path: 'admin/products/new',
+    component: AddProduct,
+    canActivate: [authGuard, adminGuard]
   }
-  
+
 ];

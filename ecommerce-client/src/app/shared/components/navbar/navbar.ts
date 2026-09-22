@@ -19,7 +19,9 @@ export class Navbar {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
-
+  isAdmin(): boolean {
+    return localStorage.getItem('role') === 'Admin';
+  }
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

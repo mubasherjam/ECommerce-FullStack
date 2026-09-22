@@ -26,7 +26,11 @@
       <a routerLink="/orders" class="nav-link">
         Orders
       </a>
-
+      @if (isAdmin()) {
+        <a routerLink="/admin/products/new" class="nav-link">
+          Add Product
+        </a>
+      }
       <button (click)="logout()" class="nav-btn nav-btn-outline">
         Logout
       </button>
