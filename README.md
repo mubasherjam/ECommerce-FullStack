@@ -25,7 +25,8 @@ A full-stack e-commerce application built with **ASP.NET Core Web API** and **An
 * Angular Services
 * Route Guards
 * HTTP Interceptors
-HomePage:
+  
+### HomePage
 https://github.com/user-attachments/assets/325a758a-88db-4ebc-905f-a5e077c560c7
 ## 📁 Project Structure
 
