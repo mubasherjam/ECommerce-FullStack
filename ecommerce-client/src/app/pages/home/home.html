@@ -1,571 +1,269 @@
 <app-navbar></app-navbar>
 
-<main>
+<div class="announce-bar">
+  <span>Free shipping on orders over $100</span>
+  <span class="announce-dot">&middot;</span>
+  <a routerLink="/products">Shop the new collection</a>
+</div>
 
-  <!-- ANNOUNCEMENT -->
-  <div class="announcement">
-    <span>FREE SHIPPING ON ORDERS OVER $100</span>
-    <span>•</span>
-    <span>SHOP THE NEW COLLECTION</span>
+<section class="hero">
+
+  <div class="hero-copy">
+
+    <div class="hero-meta-row">
+      <span>Shopfront / 2026</span>
+      <span>01 &mdash; 04</span>
+    </div>
+
+    <div class="hero-copy-main">
+      <p class="hero-kicker">Curated for everyday</p>
+
+      <h1>Better things.<br /><em>Better living.</em></h1>
+
+      <p class="hero-subtext">
+        Discover products chosen for the way you live, work and spend your everyday moments.
+      </p>
+
+      <div class="hero-ctas">
+        <a routerLink="/products" class="hero-cta-primary">Explore collection &rarr;</a>
+        <a routerLink="/register" class="hero-cta-secondary">Shop all products &rarr;</a>
+      </div>
+    </div>
+
+    <div class="hero-meta-row hero-meta-row-bottom">
+      <span>Designed for everyday life</span>
+      <span>Scroll to explore &darr;</span>
+    </div>
+
   </div>
 
+  <div class="hero-media">
+    <img src="https://picsum.photos/seed/shopfronthero/1000/1200" alt="" />
+    <div class="hero-media-frame"></div>
 
-  <!-- HERO -->
-  <section class="hero">
-
-    <div class="hero-content">
-
-      <div class="hero-top">
-        <span>SHOPFRONT / 2026</span>
-        <span>01 — 04</span>
-      </div>
-
-      <div class="hero-main">
-
-        <p class="eyebrow">
-          CURATED FOR EVERYDAY
-        </p>
-
-        <h1>
-          Better things.
-          <br>
-          <em>Better living.</em>
-        </h1>
-
-        <p class="hero-description">
-          Discover products chosen for the way you live,
-          work and spend your everyday moments.
-        </p>
-
-        <div class="hero-actions">
-
-          <a routerLink="/products" class="primary-button">
-            Explore collection
-            <span>→</span>
-          </a>
-
-          <a routerLink="/products" class="secondary-button">
-            Shop all products
-            <span>→</span>
-          </a>
-
-        </div>
-
-      </div>
-
-      <div class="hero-footer">
-        <span>DESIGNED FOR EVERYDAY LIFE</span>
-        <span>SCROLL TO EXPLORE ↓</span>
-      </div>
-
+    <div class="hero-media-caption">
+      <span>Shopfront</span>
+      <strong>The Everyday Edit</strong>
     </div>
 
+    <a routerLink="/products" class="hero-media-badge">
+      <span>Discover</span>
+      <span>Shop</span>
+      <span>Live</span>
+    </a>
+  </div>
 
-    <!-- HERO IMAGE -->
-    <div class="hero-visual">
+</section>
 
-      <div class="hero-overlay">
+<section class="stats-bar">
 
-        <div class="hero-caption">
-          <small>SHOPFRONT</small>
-          <strong>THE EVERYDAY EDIT</strong>
-        </div>
+  <div class="stat">
+    <strong>{{ totalProductCount() }}+</strong>
+    <span>Curated products</span>
+  </div>
 
-        <div class="hero-circle">
-          <span>DISCOVER</span>
-          <span>SHOP</span>
-          <span>LIVE</span>
-        </div>
+  <div class="stat">
+    <strong>{{ categories().length ? '0' + categories().length : '&mdash;' }}</strong>
+    <span>Product categories</span>
+  </div>
 
-      </div>
+  <div class="stat">
+    <strong>24/7</strong>
+    <span>Online shopping</span>
+  </div>
 
-    </div>
+  <div class="stat">
+    <strong>100%</strong>
+    <span>Secure checkout</span>
+  </div>
 
-  </section>
+</section>
 
+<section class="categories-section">
 
-  <!-- STATS -->
-  <section class="stats">
-
+  <div class="section-header">
     <div>
-      <strong>50+</strong>
-      <span>Curated products</span>
+      <p class="section-kicker">01 / Collections</p>
+      <h2>Shop by <em>category</em>.</h2>
     </div>
+    <p class="section-intro">
+      From everyday essentials to things that make your space and style feel a little more yours.
+    </p>
+  </div>
 
-    <div>
-      <strong>04</strong>
-      <span>Product categories</span>
-    </div>
+  @if (!categoriesLoading() && categories().length > 0) {
 
-    <div>
-      <strong>24/7</strong>
-      <span>Online shopping</span>
-    </div>
+    <div class="category-tiles">
 
-    <div>
-      <strong>100%</strong>
-      <span>Secure checkout</span>
-    </div>
-
-  </section>
+      @for (category of categories(); track category.id; let i = $index) {
 
 
-  <!-- COLLECTIONS -->
-  <section class="collections">
+          <a [routerLink]="['/products']" [queryParams]="categoryQueryParams(category)" class="category-tile">
+          <img [src]="'https://picsum.photos/seed/' + categoryImageSeed(category.name) + '/700/900'" [alt]="category.name" />
 
-    <div class="section-heading">
+          <span class="category-tile-index">0{{ i + 1 }}</span>
 
-      <div>
-        <span class="section-label">
-          01 / COLLECTIONS
-        </span>
-
-        <h2>
-          Shop by
-          <em>category.</em>
-        </h2>
-      </div>
-
-      <div class="section-description">
-        From everyday essentials to things that make
-        your space and style feel a little more yours.
-      </div>
-
-    </div>
-
-
-    <div class="collection-grid">
-
-      <!-- ELECTRONICS -->
-
-      <a
-        routerLink="/products"
-        class="collection collection-electronics"
-      >
-
-        <div class="collection-overlay">
-
-          <span>01</span>
-
-          <div>
-            <small>ELECTRONICS</small>
-
+          <div class="category-tile-overlay">
+            <p class="category-tile-eyebrow">{{ category.name }}</p>
             <h3>
-              Technology
-              <br>
-              <em>that works.</em>
+              {{ categoryTagline(category.name).line1 }}<br />
+              <em>{{ categoryTagline(category.name).line2 }}</em>
             </h3>
+            <span class="category-tile-link">Explore &rarr;</span>
           </div>
-
-          <strong>
-            Explore →
-          </strong>
-
-        </div>
-
-      </a>
-
-
-      <!-- CLOTHING -->
-
-      <a
-        routerLink="/products"
-        class="collection collection-clothing"
-      >
-
-        <div class="collection-overlay">
-
-          <span>02</span>
-
-          <div>
-            <small>CLOTHING</small>
-
-            <h3>
-              Everyday
-              <br>
-              <em>essentials.</em>
-            </h3>
-          </div>
-
-          <strong>
-            Explore →
-          </strong>
-
-        </div>
-
-      </a>
-
-
-      <!-- HOME -->
-
-      <a
-        routerLink="/products"
-        class="collection collection-home"
-      >
-
-        <div class="collection-overlay">
-
-          <span>03</span>
-
-          <div>
-            <small>HOME & KITCHEN</small>
-
-            <h3>
-              Make space
-              <br>
-              <em>your own.</em>
-            </h3>
-          </div>
-
-          <strong>
-            Explore →
-          </strong>
-
-        </div>
-
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- FEATURED PRODUCTS -->
-
-  <section class="featured">
-
-    <div class="featured-heading">
-
-      <div>
-
-        <span class="section-label">
-          02 / THE EDIT
-        </span>
-
-        <h2>
-          Featured
-          <em>now.</em>
-        </h2>
-
-        <p>
-          Handpicked products, chosen for quality,
-          style and everyday value.
-        </p>
-
-      </div>
-
-      <a routerLink="/products">
-        View entire collection →
-      </a>
-
-    </div>
-
-
-    @if (loading) {
-
-      <div class="product-grid">
-
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-
-      </div>
-
-    }
-
-    @else if (products.length > 0) {
-
-      <div class="product-grid">
-
-        @for (product of products; track product.id) {
-
-          <article class="product-card">
-
-            <a
-              [routerLink]="['/products', product.id]"
-              class="product-image"
-            >
-
-              @if (product.imageUrl) {
-
-                <img
-                  [src]="product.imageUrl"
-                  [alt]="product.name"
-                />
-
-              }
-
-              @else {
-
-                <div class="image-placeholder">
-                  SHOPFRONT
-                </div>
-
-              }
-
-              @if (product.categoryName) {
-
-                <span class="product-category">
-                  {{ product.categoryName }}
-                </span>
-
-              }
-
-            </a>
-
-
-            <div class="product-details">
-
-              <div>
-
-                <h3>
-                  {{ product.name }}
-                </h3>
-
-                <p>
-                  {{ product.description }}
-                </p>
-
-              </div>
-
-              <strong>
-                ${{ product.price }}
-              </strong>
-
-            </div>
-
-
-            <a
-              [routerLink]="['/products', product.id]"
-              class="product-link"
-            >
-              View →
-            </a>
-
-          </article>
-
-        }
-
-      </div>
-
-    }
-
-    @else {
-
-      <div class="empty-products">
-
-        <span>SHOPFRONT / COLLECTION</span>
-
-        <h3>
-          New products
-          <em>coming soon.</em>
-        </h3>
-
-        <a routerLink="/products">
-          Browse products →
         </a>
 
+      }
+
+    </div>
+
+  }
+
+</section>
+
+<section class="featured">
+
+  <div class="section-header">
+    <div>
+      <p class="section-kicker">02 / The edit</p>
+      <h2>Featured <em>now</em>.</h2>
+    </div>
+    <a routerLink="/products" class="section-link">View entire collection &rarr;</a>
+  </div>
+
+  @if (productsLoading()) {
+
+    <p class="state-message">Loading products...</p>
+
+  } @else if (productsError()) {
+
+    <p class="state-message state-error">{{ productsError() }}</p>
+
+  } @else if (featuredProducts().length === 0) {
+
+    <p class="state-message">No products yet &mdash; check back soon.</p>
+
+  } @else {
+
+    <div class="featured-grid">
+
+      @for (product of featuredProducts(); track product.id) {
+
+        <a [routerLink]="['/products', product.id]" class="featured-card">
+
+          <div class="featured-card-media">
+
+            @if (product.imageUrl) {
+              <img [src]="product.imageUrl" [alt]="product.name" />
+            } @else {
+              <div class="featured-card-media-fallback"></div>
+            }
+
+          </div>
+
+          <div class="featured-card-body">
+            <h3>{{ product.name }}</h3>
+            <strong>${{ product.price }}</strong>
+          </div>
+
+        </a>
+
+      }
+
+    </div>
+
+  }
+
+</section>
+
+<section class="why-section">
+
+  <div class="why-copy">
+    <p class="section-kicker why-kicker">Why Shopfront</p>
+    <h2>Shopping should<br />feel <em>simple</em>.</h2>
+  </div>
+
+  <div class="why-grid">
+
+    <div class="why-item">
+      <span class="why-icon why-icon-diamond"></span>
+      <h3>Curated selection</h3>
+      <p>A growing collection of useful products across everyday categories.</p>
+    </div>
+
+    <div class="why-item">
+      <span class="why-icon why-icon-diamond"></span>
+      <h3>Secure shopping</h3>
+      <p>Your account and shopping experience are protected end to end.</p>
+    </div>
+
+    <div class="why-item">
+      <span class="why-icon why-icon-square"></span>
+      <h3>Fast delivery</h3>
+      <p>Get your products quickly with reliable, tracked shipping.</p>
+    </div>
+
+    <div class="why-item">
+      <span class="why-icon why-icon-diamond"></span>
+      <h3>Dedicated support</h3>
+      <p>We're here when you need us, from order to delivery.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="promo-split">
+
+  <div class="promo-media">
+    <img src="https://picsum.photos/seed/shopfrontlifestyle/1100/1000" alt="" />
+  </div>
+
+  <div class="promo-copy">
+    <span class="promo-meta">Shopfront<br />Est. 2026</span>
+
+    <p class="section-kicker">Featured collection</p>
+    <h2>Built for<br /><em>real life</em>.</h2>
+    <p>Quality products for your home, your style, your work, and your next adventure.</p>
+    <a routerLink="/products" class="promo-link">Explore collection &rarr;</a>
+  </div>
+
+</section>
+
+<section class="newsletter">
+
+  <div>
+    <p class="section-kicker">Stay in the loop</p>
+    <h2>Good things, <em>delivered</em>.</h2>
+    <p class="newsletter-desc">Get occasional updates about new products, collections and what's happening at Shopfront.</p>
+  </div>
+
+  <form class="newsletter-form" #newsletterForm="ngForm" (ngSubmit)="submitNewsletter(); newsletterForm.resetForm()">
+
+    @if (!newsletterSubmitted()) {
+
+      <div class="newsletter-row">
+        <input type="email" name="email" ngModel placeholder="Your email address" required />
+        <button type="submit">Subscribe &rarr;</button>
       </div>
+
+      <p class="newsletter-disclaimer">No spam. Just the good stuff. (This demo doesn't actually send emails.)</p>
+
+    } @else {
+
+      <p class="newsletter-thanks">Thanks &mdash; you're on the list.</p>
 
     }
 
-  </section>
-
-
-  <!-- WHY SHOPFRONT -->
-
-  <section class="why">
-
-    <div class="why-title">
-
-      <span class="section-label">
-        WHY SHOPFRONT
-      </span>
-
-      <h2>
-        Shopping should
-        <br>
-        feel <em>simple.</em>
-      </h2>
-
-    </div>
-
-
-    <div class="why-items">
-
-      <div>
-
-        <span>◇</span>
-
-        <div>
-          <h3>Curated selection</h3>
-
-          <p>
-            A growing collection of useful products
-            across everyday categories.
-          </p>
-        </div>
-
-      </div>
-
-
-      <div>
-
-        <span>♢</span>
-
-        <div>
-          <h3>Secure shopping</h3>
-
-          <p>
-            Your account and shopping experience
-            are protected.
-          </p>
-        </div>
-
-      </div>
-
-
-      <div>
-
-        <span>□</span>
-
-        <div>
-          <h3>Fast delivery</h3>
-
-          <p>
-            Get your products quickly with
-            reliable shipping.
-          </p>
-        </div>
-
-      </div>
-
-
-      <div>
-
-        <span>♧</span>
-
-        <div>
-          <h3>Dedicated support</h3>
-
-          <p>
-            We're here when you need us,
-            from order to delivery.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- EDITORIAL -->
-
-  <section class="editorial">
-
-    <div class="editorial-image"></div>
-
-    <div class="editorial-content">
-
-      <span class="section-label">
-        FEATURED COLLECTION
-      </span>
-
-      <h2>
-        Built for
-        <br>
-        <em>real life.</em>
-      </h2>
-
-      <p>
-        Quality products for your home, your style,
-        your work and your next adventure.
-      </p>
-
-      <a routerLink="/products">
-        Explore collection →
-      </a>
-
-      <div class="editorial-mark">
-        SHOPFRONT
-        <br>
-        EST. 2026
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- NEWSLETTER -->
-
-  <section class="newsletter">
-
-    <div>
-
-      <span class="section-label">
-        STAY IN THE LOOP
-      </span>
-
-      <h2>
-        Good things,
-        <em>delivered.</em>
-      </h2>
-
-    </div>
-
-
-    <div>
-
-      <p>
-        Get occasional updates about new products,
-        collections and what's happening at Shopfront.
-      </p>
-
-      <form class="newsletter-form">
-
-        <input
-          type="email"
-          placeholder="Your email address"
-        />
-
-        <button type="button">
-          Subscribe →
-        </button>
-
-      </form>
-
-      <small>
-        No spam. Just the good stuff.
-      </small>
-
-    </div>
-
-  </section>
-
-
-  <!-- FINAL CTA -->
-
-  <section class="final-cta">
-
-    <span>
-      SHOPFRONT / 2026
-    </span>
-
-    <h2>
-      Find something
-      <br>
-      worth <em>keeping.</em>
-    </h2>
-
-    <a routerLink="/products">
-      Start shopping
-      <span>→</span>
-    </a>
-
-  </section>
-
-</main>
+  </form>
+
+</section>
+
+<section class="closing-cta">
+  <div class="closing-cta-overlay"></div>
+  <div class="closing-cta-content">
+    <p class="closing-cta-meta">Shopfront / 2026</p>
+    <h2>Find something<br />worth <em>keeping</em>.</h2>
+    <a routerLink="/products" class="closing-cta-btn">Start shopping &rarr;</a>
+  </div>
+</section>
