@@ -1,68 +1,77 @@
 <app-navbar></app-navbar>
 
-<h1>Your Orders</h1>
+<div class="orders-page">
 
-@if (loading()) {
+  @if (loading()) {
 
-  <p>Loading orders...</p>
+    <p class="state-message">Loading orders...</p>
 
-} @else if (errorMessage()) {
+  } @else if (errorMessage()) {
 
-  <p class="orders-error">{{ errorMessage() }}</p>
+    <p class="state-message state-error">{{ errorMessage() }}</p>
 
-} @else if (orders().length > 0) {
+  } @else if (orders().length > 0) {
 
-  <div class="orders-list">
+    <header class="orders-header">
+      <h1>Your orders</h1>
+      <p class="orders-subtext">{{ orders().length }} order{{ orders().length === 1 ? '' : 's' }}</p>
+    </header>
 
-    @for (order of orders(); track order.id) {
+    <div class="orders-list">
 
-      <div class="order-card" [class.just-placed]="order.id === justPlacedOrderId">
+      @for (order of orders(); track order.id) {
 
-        <div class="order-header">
+        <div class="order-card" [class.just-placed]="order.id === justPlacedOrderId">
 
-          <div>
-            <strong>Order #{{ order.id }}</strong>
-            <span class="order-date">{{ order.orderDate | date:'mediumDate' }}</span>
-          </div>
+          <div class="order-header">
 
-          <span class="order-status" [attr.data-status]="order.status">
-            {{ order.status }}
-          </span>
-
-        </div>
-
-        @if (order.id === justPlacedOrderId) {
-          <p class="just-placed-message">Order placed successfully!</p>
-        }
-
-        <div class="order-items">
-
-          @for (item of order.items; track item.productId) {
-
-            <div class="order-item">
-              <span>{{ item.productName }} &times; {{ item.quantity }}</span>
-              <span>${{ item.total }}</span>
+            <div>
+              <strong>Order #{{ order.id }}</strong>
+              <span class="order-date">{{ order.orderDate | date:'mediumDate' }}</span>
             </div>
 
+            <span class="order-status" [attr.data-status]="order.status">
+              {{ order.status }}
+            </span>
+
+          </div>
+
+          @if (order.id === justPlacedOrderId) {
+            <p class="just-placed-message">Order placed successfully!</p>
           }
 
+          <div class="order-items">
+
+            @for (item of order.items; track item.productId) {
+
+              <div class="order-item">
+                <span>{{ item.productName }} &times; {{ item.quantity }}</span>
+                <span>${{ item.total }}</span>
+              </div>
+
+            }
+
+          </div>
+
+          <div class="order-total">
+            <span>Total</span>
+            <strong>${{ order.totalAmount }}</strong>
+          </div>
+
         </div>
 
-        <div class="order-total">
-          Total: ${{ order.totalAmount }}
-        </div>
+      }
 
-      </div>
+    </div>
 
-    }
+  } @else {
 
-  </div>
+    <div class="orders-empty">
+      <h2>No orders yet</h2>
+      <p>Orders you place will show up here.</p>
+      <a routerLink="/products" class="orders-empty-btn">Browse products</a>
+    </div>
 
-} @else {
+  }
 
-  <div class="orders-empty">
-    <p>You haven't placed any orders yet.</p>
-    <a routerLink="/products">Browse products</a>
-  </div>
-
-}
+</div>

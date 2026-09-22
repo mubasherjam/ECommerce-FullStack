@@ -147,3 +147,13 @@
     margin-top: 6px;
   }
 }
+.mp-eyebrow {
+  display: block;
+  color: var(--amber-deep);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.mp-row:not(.mp-row-head):hover {
+  background: var(--paper-dim);
+}

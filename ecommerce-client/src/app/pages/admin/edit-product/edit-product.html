@@ -1,6 +1,26 @@
+<app-navbar></app-navbar>
+
 <div class="ep-page">
 
   <a routerLink="/admin/products" class="ep-back">&larr; Back to manage products</a>
+
+  @if (loading()) {
+
+    <p class="state-message">Loading product...</p>
+
+  } @else if (loadError()) {
+
+    <p class="state-message state-error">{{ loadError() }}</p>
+
+  } @else {
+
+    <span class="ep-eyebrow">Admin</span>
+    <h1>Edit product</h1>
+  }
+<div class="ep-page">
+
+  <a routerLink="/admin/products" class="ep-back">&larr; Back to manage products</a>
+
 
   @if (loading()) {
 

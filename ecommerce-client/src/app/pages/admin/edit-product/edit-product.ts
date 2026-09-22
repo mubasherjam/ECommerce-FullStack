@@ -6,10 +6,11 @@ import { ProductService } from '../../../core/services/product';
 import { CategoryService } from '../../../core/services/category';
 import { Category } from '../../../shared/models/category';
 import { ProductRequest } from '../../../shared/models/product-request';
+import { Navbar } from '../../../shared/components/navbar/navbar';
 
 @Component({
   selector: 'app-edit-product',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, Navbar],
   templateUrl: './edit-product.html',
   styleUrl: './edit-product.css'
 })

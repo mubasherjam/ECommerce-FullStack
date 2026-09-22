@@ -1,35 +1,41 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Navbar } from '../../shared/components/navbar/navbar';
+import { ProductService } from '../../core/services/product';
+import { Product } from '../../shared/models/product';
 
 @Component({
   selector: 'app-home',
-  imports: [Navbar],
+  imports: [Navbar, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {
+export class Home implements OnInit {
 
-  message = '';
+  products: Product[] = [];
+  loading = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private productService: ProductService
+  ) {}
 
-  testProtectedApi(): void {
+  ngOnInit(): void {
+    this.loadFeaturedProducts();
+  }
 
-    this.http
-      .get('https://localhost:44347/api/test/protected', {
-        responseType: 'text'
-      })
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-          this.message = response;
-        },
+  loadFeaturedProducts(): void {
+    this.productService.getProducts().subscribe({
+      next: (response) => {
+        console.log('Home products:', response);
 
-        error: (error) => {
-          console.error(error);
-          this.message = 'Request failed.';
-        }
-      });
+        this.products = response.slice(0, 4);
+        this.loading = false;
+      },
+
+      error: (error) => {
+        console.error('Failed to load products:', error);
+        this.loading = false;
+      }
+    });
   }
 }

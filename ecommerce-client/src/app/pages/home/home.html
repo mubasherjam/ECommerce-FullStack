@@ -1,11 +1,346 @@
 <app-navbar></app-navbar>
 
-<h1>Home</h1>
+<main>
 
-<button (click)="testProtectedApi()">
-  Test Protected API
-</button>
+  <!-- HERO -->
+  <section class="hero">
 
-@if (message) {
-  <p>{{ message }}</p>
-}
+    <div class="hero-content">
+
+      <p class="eyebrow">
+        THE SHOPFRONT COLLECTION
+      </p>
+
+      <h1>
+        Things worth
+        <span>bringing home.</span>
+      </h1>
+
+      <p class="hero-description">
+        Discover thoughtfully selected products for everyday living,
+        work and everything in between.
+      </p>
+
+      <div class="hero-actions">
+
+        <a routerLink="/products" class="primary-button">
+          Shop all products
+          <span>→</span>
+        </a>
+
+        <a routerLink="/products" class="secondary-button">
+          Explore collection
+        </a>
+
+      </div>
+
+      <div class="hero-meta">
+
+        <div>
+          <strong>01</strong>
+          <span>Curated products</span>
+        </div>
+
+        <div>
+          <strong>02</strong>
+          <span>Secure shopping</span>
+        </div>
+
+        <div>
+          <strong>03</strong>
+          <span>Fast checkout</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="hero-visual">
+
+      <div class="visual-card">
+
+        <div class="visual-label">
+          FEATURED
+        </div>
+
+        <div class="visual-circle">
+          <span>SHOP</span>
+        </div>
+
+        <div class="visual-bottom">
+          <span>SHOPFRONT</span>
+          <span>EST. 2026</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CATEGORY SECTION -->
+  <section class="categories-section">
+
+    <div class="section-heading">
+
+      <div>
+        <p class="eyebrow">SHOP BY CATEGORY</p>
+
+        <h2>
+          Find something
+          <em>you'll love.</em>
+        </h2>
+      </div>
+
+      <a routerLink="/products" class="text-link">
+        View all products →
+      </a>
+
+    </div>
+
+
+    <div class="categories-grid">
+
+      <a routerLink="/products" class="category-card category-dark">
+        <span class="category-number">01</span>
+
+        <div>
+          <h3>Electronics</h3>
+          <p>Technology for everyday life.</p>
+        </div>
+
+        <span class="category-arrow">↗</span>
+      </a>
+
+
+      <a routerLink="/products" class="category-card category-light">
+        <span class="category-number">02</span>
+
+        <div>
+          <h3>Clothing</h3>
+          <p>Simple pieces, timeless style.</p>
+        </div>
+
+        <span class="category-arrow">↗</span>
+      </a>
+
+
+      <a routerLink="/products" class="category-card category-accent">
+        <span class="category-number">03</span>
+
+        <div>
+          <h3>Home & Kitchen</h3>
+          <p>Make your space feel like home.</p>
+        </div>
+
+        <span class="category-arrow">↗</span>
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="featured-section">
+
+    <div class="section-heading">
+
+      <div>
+        <p class="eyebrow">OUR PICKS</p>
+
+        <h2>
+          Featured
+          <em>products.</em>
+        </h2>
+      </div>
+
+      <a routerLink="/products" class="text-link">
+        Shop everything →
+      </a>
+
+    </div>
+
+
+    @if (loading) {
+
+      <div class="products-loading">
+        <span>Loading collection...</span>
+      </div>
+
+    } @else if (products.length > 0) {
+
+      <div class="featured-grid">
+
+        @for (product of products; track product.id) {
+
+          <article class="featured-product">
+
+            <a [routerLink]="['/products', product.id]" class="product-image">
+
+              @if (product.imageUrl) {
+                <img
+                  [src]="product.imageUrl"
+                  [alt]="product.name"
+                />
+              } @else {
+                <div class="image-placeholder">
+                  SHOPFRONT
+                </div>
+              }
+
+              @if (product.categoryName) {
+                <span class="product-category">
+                  {{ product.categoryName }}
+                </span>
+              }
+
+            </a>
+
+
+            <div class="product-info">
+
+              <div>
+
+                <h3>{{ product.name }}</h3>
+
+                <p>
+                  {{ product.description }}
+                </p>
+
+              </div>
+
+              <div class="product-bottom">
+
+                <strong>
+                  ${{ product.price }}
+                </strong>
+
+                <a [routerLink]="['/products', product.id]">
+                  View →
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <div class="empty-products">
+        <p>No products available yet.</p>
+
+        <a routerLink="/products">
+          Browse store →
+        </a>
+      </div>
+
+    }
+
+  </section>
+
+
+  <!-- WHY SHOPFRONT -->
+  <section class="why-section">
+
+    <div class="why-intro">
+
+      <p class="eyebrow">
+        WHY SHOPFRONT
+      </p>
+
+      <h2>
+        Shopping should
+        <em>feel simple.</em>
+      </h2>
+
+      <p>
+        From discovering something new to placing your order,
+        Shopfront is designed to keep the experience simple,
+        clear and enjoyable.
+      </p>
+
+    </div>
+
+
+    <div class="benefits">
+
+      <div class="benefit">
+
+        <span class="benefit-number">01</span>
+
+        <div>
+          <h3>Curated selection</h3>
+          <p>
+            A growing collection of useful products
+            across everyday categories.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="benefit">
+
+        <span class="benefit-number">02</span>
+
+        <div>
+          <h3>Secure shopping</h3>
+          <p>
+            Your account and shopping experience
+            are protected from start to finish.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="benefit">
+
+        <span class="benefit-number">03</span>
+
+        <div>
+          <h3>Built for convenience</h3>
+          <p>
+            Browse products, manage your cart and
+            track your orders from one place.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CTA -->
+  <section class="cta-section">
+
+    <div>
+
+      <p class="eyebrow">
+        READY TO EXPLORE?
+      </p>
+
+      <h2>
+        Your next favorite
+        <em>thing is waiting.</em>
+      </h2>
+
+    </div>
+
+    <a routerLink="/products" class="cta-button">
+      Start shopping
+      <span>→</span>
+    </a>
+
+  </section>
+
+</main>

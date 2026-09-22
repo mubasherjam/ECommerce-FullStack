@@ -6,13 +6,15 @@ import { ProductService } from '../../../core/services/product';
 import { CategoryService } from '../../../core/services/category';
 import { Category } from '../../../shared/models/category';
 import { ProductRequest } from '../../../shared/models/product-request';
+import { Navbar } from '../../../shared/components/navbar/navbar';
 
 @Component({
   selector: 'app-add-product',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, Navbar],
   templateUrl: './add-product.html',
   styleUrl: './add-product.css'
 })
+
 export class AddProduct implements OnInit {
 
   form: ProductRequest = {

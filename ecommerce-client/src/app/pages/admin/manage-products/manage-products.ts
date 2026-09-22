@@ -3,13 +3,16 @@ import { RouterLink } from '@angular/router';
 
 import { ProductService } from '../../../core/services/product';
 import { Product } from '../../../shared/models/product';
+import { Navbar } from '../../../shared/components/navbar/navbar';
+
 
 @Component({
   selector: 'app-manage-products',
-  imports: [RouterLink],
+  imports: [RouterLink, Navbar],
   templateUrl: './manage-products.html',
   styleUrl: './manage-products.css'
 })
+
 export class ManageProducts implements OnInit {
 
   products = signal<Product[]>([]);

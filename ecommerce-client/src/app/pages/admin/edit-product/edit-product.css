@@ -137,3 +137,9 @@
   opacity: 0.55;
   cursor: not-allowed;
 }
+.ep-eyebrow {
+  display: block;
+  color: var(--amber-deep);
+  font-size: 13px;
+  margin-bottom: 6px;
+}

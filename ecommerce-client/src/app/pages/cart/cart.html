@@ -1,89 +1,102 @@
 <app-navbar></app-navbar>
 
-<h1>Your Cart</h1>
+<div class="cart-page">
 
-@if (loading()) {
+  @if (loading()) {
 
-  <p>Loading cart...</p>
+    <p class="state-message">Loading cart...</p>
 
-} @else if (errorMessage()) {
+  } @else if (errorMessage()) {
 
-  <p class="cart-error">{{ errorMessage() }}</p>
+    <p class="state-message state-error">{{ errorMessage() }}</p>
 
-} @else if (cart(); as cart) {
+  } @else if (cart(); as cart) {
 
-  @if (cart.items.length > 0) {
+    @if (cart.items.length > 0) {
 
-    <div class="cart-items">
+      <header class="cart-header">
+        <h1>Your cart</h1>
+        <p class="cart-subtext">{{ cart.items.length }} item{{ cart.items.length === 1 ? '' : 's' }}</p>
+      </header>
 
-      @for (item of cart.items; track item.id) {
+      <div class="cart-items">
 
-        <div class="cart-item">
+        @for (item of cart.items; track item.id) {
 
-          <div class="cart-item-info">
-            <h3>{{ item.productName }}</h3>
-            <p>${{ item.price }} each</p>
-          </div>
+          <div class="cart-item">
 
-          <div class="quantity-selector">
+            <div class="cart-item-info">
+              <h3>{{ item.productName }}</h3>
+              <p>${{ item.price }} each</p>
+            </div>
+
+            <div class="quantity-selector">
+              <button
+                type="button"
+                [disabled]="updatingItemId() === item.id"
+                (click)="decreaseQuantity(item)"
+              >-</button>
+
+              <span>{{ item.quantity }}</span>
+
+              <button
+                type="button"
+                [disabled]="updatingItemId() === item.id"
+                (click)="increaseQuantity(item)"
+              >+</button>
+            </div>
+
+            <div class="cart-item-total">
+              ${{ item.total }}
+            </div>
+
             <button
               type="button"
+              class="remove-btn"
               [disabled]="updatingItemId() === item.id"
-              (click)="decreaseQuantity(item)"
-            >-</button>
+              (click)="removeItem(item)"
+            >
+              Remove
+            </button>
 
-            <span>{{ item.quantity }}</span>
-
-            <button
-              type="button"
-              [disabled]="updatingItemId() === item.id"
-              (click)="increaseQuantity(item)"
-            >+</button>
           </div>
 
-          <div class="cart-item-total">
-            ${{ item.total }}
-          </div>
+        }
 
-          <button
-            type="button"
-            class="remove-btn"
-            [disabled]="updatingItemId() === item.id"
-            (click)="removeItem(item)"
-          >
-            Remove
-          </button>
+      </div>
 
+      <div class="cart-summary">
+
+        <div class="cart-summary-row">
+          <span>Total</span>
+          <h2>${{ cart.total }}</h2>
         </div>
 
-      }
+        <button
+          type="button"
+          class="checkout-btn"
+          [disabled]="placingOrder()"
+          (click)="checkout()"
+        >
+          {{ placingOrder() ? 'Placing order...' : 'Proceed to Checkout' }}
+        </button>
 
-    </div>
+        @if (checkoutError()) {
+          <p class="cart-error-inline">{{ checkoutError() }}</p>
+        }
 
-    <div class="cart-summary">
-      <h2>Total: ${{ cart.total }}</h2>
+      </div>
 
-      <button
-        type="button"
-        class="checkout-btn"
-        [disabled]="placingOrder()"
-        (click)="checkout()"
-      >
-        {{ placingOrder() ? 'Placing order...' : 'Proceed to Checkout' }}
-      </button>
-    </div>
+    } @else {
 
-    @if (checkoutError()) {
-      <p class="cart-error">{{ checkoutError() }}</p>
+      <div class="cart-empty">
+        <h2>Your cart is empty</h2>
+        <p>Items you add will show up here.</p>
+        <a routerLink="/products" class="cart-empty-btn">Browse products</a>
+      </div>
+
     }
-
-  } @else {
-
-    <div class="cart-empty">
-      <p>Your cart is empty.</p>
-      <a routerLink="/products">Browse products</a>
-    </div>
 
   }
 
-}
+</div>
