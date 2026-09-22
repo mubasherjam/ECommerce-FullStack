@@ -1,0 +1,93 @@
+<div class="mp-page">
+
+  <div class="mp-header">
+
+    <div>
+      <h1>Manage products</h1>
+      <p class="mp-subtext">Edit or remove items from your catalog.</p>
+    </div>
+
+    <a routerLink="/admin/products/new" class="mp-add-btn">
+      + Add product
+    </a>
+
+  </div>
+
+  @if (loading()) {
+
+    <p class="state-message">Loading products...</p>
+
+  } @else if (errorMessage()) {
+
+    <p class="state-message state-error">{{ errorMessage() }}</p>
+
+  } @else if (products().length === 0) {
+
+    <p class="state-message">No products yet.</p>
+
+  } @else {
+
+    <div class="mp-table">
+
+      <div class="mp-row mp-row-head">
+        <span>Product</span>
+        <span>Category</span>
+        <span>Price</span>
+        <span>Stock</span>
+        <span></span>
+      </div>
+
+      @for (product of products(); track product.id) {
+
+        <div class="mp-row">
+
+          <span class="mp-product-cell">
+
+            @if (product.imageUrl) {
+              <img [src]="product.imageUrl" [alt]="product.name" />
+            } @else {
+              <div class="mp-thumb-fallback"></div>
+            }
+
+            <span class="mp-product-name">{{ product.name }}</span>
+
+          </span>
+
+          <span>{{ product.categoryName }}</span>
+
+          <span>${{ product.price }}</span>
+
+          <span>
+            @if (product.stockQuantity > 0) {
+              {{ product.stockQuantity }}
+            } @else {
+              <span class="mp-out">Out of stock</span>
+            }
+          </span>
+
+          <span class="mp-actions">
+
+            <a [routerLink]="['/admin/products/edit', product.id]" class="mp-edit-btn">
+              Edit
+            </a>
+
+            <button
+              type="button"
+              class="mp-delete-btn"
+              [disabled]="deletingId() === product.id"
+              (click)="deleteProduct(product)"
+            >
+              {{ deletingId() === product.id ? 'Deleting...' : 'Delete' }}
+            </button>
+
+          </span>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

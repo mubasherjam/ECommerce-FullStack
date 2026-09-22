@@ -1,0 +1,147 @@
+<div class="ep-page">
+
+  <a routerLink="/admin/products" class="ep-back">&larr; Back to manage products</a>
+
+  @if (loading()) {
+
+    <p class="state-message">Loading product...</p>
+
+  } @else if (loadError()) {
+
+    <p class="state-message state-error">{{ loadError() }}</p>
+
+  } @else {
+
+    <h1>Edit product</h1>
+    <p class="ep-subtext">Update the details below and save your changes.</p>
+
+    <form (ngSubmit)="submit()" class="ep-form">
+
+      <div class="form-group">
+
+        <label for="name">Name</label>
+
+        <input
+          id="name"
+          type="text"
+          name="name"
+          [(ngModel)]="form.name"
+          required
+        />
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="description">Description</label>
+
+        <textarea
+          id="description"
+          name="description"
+          rows="4"
+          [(ngModel)]="form.description"
+        ></textarea>
+
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+
+          <label for="price">Price ($)</label>
+
+          <input
+            id="price"
+            type="number"
+            name="price"
+            min="0.01"
+            step="0.01"
+            [(ngModel)]="form.price"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="stockQuantity">Stock quantity</label>
+
+          <input
+            id="stockQuantity"
+            type="number"
+            name="stockQuantity"
+            min="0"
+            step="1"
+            [(ngModel)]="form.stockQuantity"
+            required
+          />
+
+        </div>
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="categoryId">Category</label>
+
+        @if (categoriesLoading()) {
+
+          <p class="ep-inline-note">Loading categories...</p>
+
+        } @else if (categoriesError()) {
+
+          <p class="ep-inline-note ep-inline-error">{{ categoriesError() }}</p>
+
+        } @else {
+
+          <select
+            id="categoryId"
+            name="categoryId"
+            [(ngModel)]="form.categoryId"
+            required
+          >
+            <option [value]="0" disabled>Select a category</option>
+
+            @for (category of categories(); track category.id) {
+              <option [value]="category.id">{{ category.name }}</option>
+            }
+          </select>
+
+        }
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="imageUrl">Image URL</label>
+
+        <input
+          id="imageUrl"
+          type="text"
+          name="imageUrl"
+          [(ngModel)]="form.imageUrl"
+        />
+
+      </div>
+
+      @if (errorMessage()) {
+        <div class="ep-message ep-message-error">{{ errorMessage() }}</div>
+      }
+
+      @if (successMessage()) {
+        <div class="ep-message ep-message-success">{{ successMessage() }}</div>
+      }
+
+      <button
+        type="submit"
+        class="ep-submit"
+        [disabled]="submitting()"
+      >
+        {{ submitting() ? 'Saving...' : 'Save changes' }}
+      </button>
+
+    </form>
+
+  }
+
+</div>

@@ -10,6 +10,8 @@ import { authGuard } from './core/guards/auth-guard';
 import { adminGuard } from './core/guards/admin-guard';
 import { ProductDetails } from './pages/product-details/product-details';
 import { AddProduct } from './pages/admin/add-product/add-product';
+import { ManageProducts } from './pages/admin/manage-products/manage-products';
+import { EditProduct } from './pages/admin/edit-product/edit-product';
 
 export const routes: Routes = [
   {
@@ -45,6 +47,16 @@ export const routes: Routes = [
   {
     path: 'admin/products/new',
     component: AddProduct,
+    canActivate: [authGuard, adminGuard]
+  },
+  {
+    path: 'admin/products',
+    component: ManageProducts,
+    canActivate: [authGuard, adminGuard]
+  },
+  {
+    path: 'admin/products/edit/:id',
+    component: EditProduct,
     canActivate: [authGuard, adminGuard]
   }
 

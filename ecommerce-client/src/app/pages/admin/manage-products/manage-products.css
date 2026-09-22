@@ -1,0 +1,149 @@
+.mp-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 40px 80px;
+}
+
+.mp-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.mp-header h1 {
+  font-size: 30px;
+  margin-bottom: 6px;
+}
+
+.mp-subtext {
+  color: var(--ink-soft);
+  font-size: 15px;
+  margin: 0;
+}
+
+.mp-add-btn {
+  padding: 11px 20px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.mp-add-btn:hover {
+  background: #34323a;
+}
+
+.state-message {
+  color: var(--ink-soft);
+  padding: 60px 0;
+  text-align: center;
+}
+
+.state-error {
+  color: var(--error);
+}
+
+.mp-table {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mp-row {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 0.8fr 0.9fr 1.2fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+}
+
+.mp-row:not(:last-child) {
+  border-bottom: 1px solid var(--line);
+}
+
+.mp-row-head {
+  background: var(--paper-dim);
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+
+.mp-product-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mp-product-cell img,
+.mp-thumb-fallback {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--paper-dim);
+  flex-shrink: 0;
+}
+
+.mp-product-name {
+  font-size: 14.5px;
+}
+
+.mp-out {
+  color: var(--error);
+  font-size: 13px;
+}
+
+.mp-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.mp-edit-btn {
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.mp-edit-btn:hover {
+  border-color: var(--ink);
+}
+
+.mp-delete-btn {
+  padding: 7px 14px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--error-bg);
+  color: var(--error);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.mp-delete-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+
+  .mp-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .mp-row-head {
+    display: none;
+  }
+
+  .mp-actions {
+    justify-content: flex-start;
+    margin-top: 6px;
+  }
+}
