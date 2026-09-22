@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 
 // Git connection testimg
@@ -66,13 +68,56 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider
-        .GetRequiredService<AppDbContext>();
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
 
-    await DbSeeder.SeedAsync(context);
+    // Detect if the app is running under IIS/IIS Express (in-process)
+    var processName = Process.GetCurrentProcess().ProcessName?.ToLowerInvariant() ?? string.Empty;
+    var isIisProcess = processName == "w3wp" || processName == "iisexpress";
+
+    // Detect if the configured connection string targets LocalDB
+    var conn = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    var isLocalDb = conn.IndexOf("localdb", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    conn.IndexOf("(localdb)", StringComparison.OrdinalIgnoreCase) >= 0;
+
+    if (isIisProcess && isLocalDb)
+    {
+        // When hosted in IIS, LocalDB is often not accessible to the app pool identity.
+        // Skip automatic migrations here to avoid crashing IIS on startup.
+        logger.LogWarning("Skipping EF Core migrations because the app is running under IIS and the connection string targets LocalDB.");
+    }
+    else
+    {
+        try
+        {
+            // Apply any pending EF Core migrations so required tables (e.g., Users)
+            // exist before running the seeder. This avoids "Invalid object name 'Users'".
+            // It's safe in dev; in production consider running migrations separately.
+            context.Database.Migrate();
+
+            await DbSeeder.SeedAsync(context);
+        }
+        catch (Exception ex)
+        {
+            // Log startup errors so they are visible in the Event Viewer / stdout logs
+            logger.LogError(ex, "An error occurred migrating or seeding the database.");
+
+            // In Development do not rethrow to avoid crashing IIS during investigation.
+            if (app.Environment.IsDevelopment())
+            {
+                logger.LogWarning("Environment is Development - swallowed startup exception to keep the host running for debugging.");
+            }
+            else
+            {
+                // In non-development environments, let the exception bubble so the host fails fast.
+                throw;
+            }
+        }
+    }
 }
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline. 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -86,7 +131,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.Run();
 
 app.Run();
