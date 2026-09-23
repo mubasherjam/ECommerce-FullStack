@@ -1,117 +1,105 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
 
-import { ProductService } from '../../core/services/product';
-import { CategoryService } from '../../core/services/category';
-import { Product } from '../../shared/models/product';
-import { Category } from '../../shared/models/category';
+import { RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
+
 import { Navbar } from '../../shared/components/navbar/navbar';
+import { ProductService } from '../../core/services/product';
+import { Product } from '../../shared/models/product';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, FormsModule, Navbar],
+  standalone: true,
+  imports: [
+    Navbar,
+    RouterLink
+  ],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 export class Home implements OnInit {
 
-  newsletterSubmitted = signal(false);
+  products: Product[] = [];
 
-  featuredProducts = signal<Product[]>([]);
-  productsLoading = signal(true);
-  productsError = signal('');
+  loading = true;
 
-  categories = signal<Category[]>([]);
-  categoriesLoading = signal(true);
-
-  totalProductCount = signal(0);
+  errorMessage = '';
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.loadFeaturedProducts();
-    this.loadCategories();
   }
 
   loadFeaturedProducts(): void {
 
-    this.productsLoading.set(true);
-    this.productsError.set('');
+    this.loading = true;
 
-    this.productService.getProducts().subscribe({
+    this.errorMessage = '';
 
-      next: (response) => {
+    this.productService
+      .getProducts()
+      .pipe(
 
-        this.totalProductCount.set(response.length);
+        finalize(() => {
 
-        const newest = [...response]
-          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-          .slice(0, 4);
+          this.loading = false;
 
-        this.featuredProducts.set(newest);
+          // Ensure Angular immediately updates
+          // the Featured Products section.
+          this.cdr.detectChanges();
 
-        this.productsLoading.set(false);
-      },
+        })
 
-      error: (error) => {
+      )
+      .subscribe({
 
-        console.error('Failed to load featured products:', error);
+        next: (response: Product[]) => {
 
-        this.productsError.set('Unable to load products right now.');
+          console.log(
+            'HOME PRODUCTS:',
+            response
+          );
 
-        this.productsLoading.set(false);
-      }
-    });
-  }
+          /*
+           * Sort products by CreatedAt.
+           *
+           * Newest product comes first.
+           */
+          this.products = response
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            )
 
-  loadCategories(): void {
+            /*
+             * Only show the latest 4
+             * products on the homepage.
+             */
+            .slice(0, 4);
 
-    this.categoriesLoading.set(true);
+        },
 
-    this.categoryService.getCategories().subscribe({
+        error: (error) => {
 
-      next: (response) => {
+          console.error(
+            'HOME PRODUCT ERROR:',
+            error
+          );
 
-        this.categories.set(response.slice(0, 3));
+          this.errorMessage =
+            'Unable to load products.';
 
-        this.categoriesLoading.set(false);
-      },
+        }
 
-      error: (error) => {
-
-        console.error('Failed to load categories:', error);
-
-        this.categoriesLoading.set(false);
-      }
-    });
-  }
-
-  categoryImageSeed(categoryName: string): string {
-    return categoryName.toLowerCase().replace(/[^a-z0-9]/g, '');
-  }
-
-  categoryQueryParams(category: Category): { category: number; categoryName: string } {
-    return { category: category.id, categoryName: category.name };
-  }
-
-  categoryTagline(categoryName: string): { line1: string; line2: string } {
-
-    const taglines: Record<string, { line1: string; line2: string }> = {
-      'Electronics': { line1: 'Technology', line2: 'that works.' },
-      'Clothing': { line1: 'Everyday', line2: 'essentials.' },
-      'Home & Kitchen': { line1: 'Make space', line2: 'your own.' },
-      'Books': { line1: 'Stories worth', line2: 'the read.' },
-      'Sports & Outdoors': { line1: 'Built for', line2: 'the outdoors.' }
-    };
-
-    return taglines[categoryName] ?? { line1: categoryName, line2: 'and more.' };
-  }
-
-  submitNewsletter(): void {
-    this.newsletterSubmitted.set(true);
+      });
   }
 }
