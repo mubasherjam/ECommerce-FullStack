@@ -73,6 +73,7 @@ namespace ECommerce.API.Controllers
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+
             }
         }
 
