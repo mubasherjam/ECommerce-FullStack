@@ -13,6 +13,7 @@ import { AddProduct } from './pages/admin/add-product/add-product';
 import { ManageProducts } from './pages/admin/manage-products/manage-products';
 import { EditProduct } from './pages/admin/edit-product/edit-product';
 
+
 export const routes: Routes = [
   {
     path: '',
